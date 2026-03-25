@@ -1,0 +1,373 @@
+# Edit tool descriptions below. Run `mcp-anything generate --description` to apply.
+tools:
+  interactive_init_item:
+    description: Init item in the interactive store
+    parameters:
+      itemId:
+        description: itemId (AnyNodeId)
+      interactive:
+        description: interactive (Interactive)
+  interactive_set_control_value:
+    description: Set control value in the interactive store
+    parameters:
+      itemId:
+        description: itemId (AnyNodeId)
+      index:
+        description: index (number)
+      value:
+        description: value (ControlValue)
+  interactive_remove_item:
+    description: Remove item in the interactive store
+    parameters:
+      itemId:
+        description: itemId (AnyNodeId)
+  scene_load_scene:
+    description: Load scene in the scene store
+  scene_clear_scene:
+    description: Clear scene in the scene store
+  scene_unload_scene:
+    description: Unload scene in the scene store
+  scene_set_scene:
+    description: Set scene in the scene store
+    parameters:
+      nodes:
+        description: nodes (Record<AnyNodeId, AnyNode>)
+      rootNodeIds:
+        description: rootNodeIds (AnyNodeId[])
+  scene_create_node:
+    description: Create node in the scene store
+    parameters:
+      node:
+        description: node (AnyNode)
+      parentId:
+        description: parentId (AnyNodeId)
+  scene_create_nodes:
+    description: Create nodes in the scene store
+    parameters:
+      ops:
+        description: 'ops ({ node: AnyNode; parentId?: AnyNodeId }[])'
+  scene_update_node:
+    description: Update node in the scene store
+    parameters:
+      id:
+        description: id (AnyNodeId)
+      data:
+        description: data (Partial<AnyNode>)
+  scene_update_nodes:
+    description: Update nodes in the scene store
+    parameters:
+      updates:
+        description: 'updates ({ id: AnyNodeId; data: Partial<AnyNode> }[])'
+  scene_delete_node:
+    description: Delete node in the scene store
+    parameters:
+      id:
+        description: id (AnyNodeId)
+  scene_delete_nodes:
+    description: Delete nodes in the scene store
+    parameters:
+      ids:
+        description: ids (AnyNodeId[])
+  scene_create_collection:
+    description: Create collection in the scene store
+    parameters:
+      name:
+        description: name (string)
+      nodeIds:
+        description: nodeIds (AnyNodeId[])
+  scene_delete_collection:
+    description: Delete collection in the scene store
+    parameters:
+      id:
+        description: id (CollectionId)
+  scene_update_collection:
+    description: Update collection in the scene store
+    parameters:
+      id:
+        description: id (CollectionId)
+      data:
+        description: data (Partial<Omit<Collection, 'id'>>)
+  scene_add_to_collection:
+    description: Add to collection in the scene store
+    parameters:
+      id:
+        description: id (CollectionId)
+      nodeId:
+        description: nodeId (AnyNodeId)
+  scene_remove_from_collection:
+    description: Remove from collection in the scene store
+    parameters:
+      id:
+        description: id (CollectionId)
+      nodeId:
+        description: nodeId (AnyNodeId)
+  commandpalette_set_open:
+    description: Set open in the commandpalette store
+    parameters:
+      open:
+        description: open (boolean)
+  commandpalette_set_mode:
+    description: Set mode in the commandpalette store
+    parameters:
+      mode:
+        description: mode (string)
+  commandpalette_set_input_value:
+    description: Set input value in the commandpalette store
+    parameters:
+      value:
+        description: value (string)
+  commandpalette_navigate_to:
+    description: Navigate to in the commandpalette store
+    parameters:
+      page:
+        description: page (string)
+  commandpalette_go_back:
+    description: Go back in the commandpalette store
+  commandpalette_set_camera_scope:
+    description: Set camera scope in the commandpalette store
+    parameters:
+      scope:
+        description: 'scope ({ nodeId: string; label: string } | null)'
+  sidebarstore_set_width:
+    description: Set width in the sidebarstore store
+    parameters:
+      width:
+        description: width (number)
+  sidebarstore_set_is_dragging:
+    description: Set is dragging in the sidebarstore store
+    parameters:
+      isDragging:
+        description: isDragging (boolean)
+  audio_set_master_volume:
+    description: Set master volume in the audio store
+    parameters:
+      v:
+        description: v (number)
+  audio_set_sfx_volume:
+    description: Set sfx volume in the audio store
+    parameters:
+      v:
+        description: v (number)
+  audio_set_radio_volume:
+    description: Set radio volume in the audio store
+    parameters:
+      v:
+        description: v (number)
+  audio_set_radio_playing:
+    description: Set radio playing in the audio store
+    parameters:
+      v:
+        description: v (boolean)
+  audio_toggle_radio_playing:
+    description: Toggle radio playing in the audio store
+  audio_toggle_mute:
+    description: Toggle mute in the audio store
+  audio_set_autoplay:
+    description: Set autoplay in the audio store
+    parameters:
+      v:
+        description: v (boolean)
+  commandregistry_register:
+    description: Register in the commandregistry store
+    parameters:
+      actions:
+        description: actions (CommandAction[])
+  editor_set_phase:
+    description: Set phase in the editor store
+    parameters:
+      phase:
+        description: phase (Phase)
+  editor_set_mode:
+    description: Set mode in the editor store
+    parameters:
+      mode:
+        description: mode (Mode)
+  editor_set_tool:
+    description: Set tool in the editor store
+    parameters:
+      tool:
+        description: tool (Tool | null)
+  editor_set_structure_layer:
+    description: Set structure layer in the editor store
+    parameters:
+      layer:
+        description: layer (StructureLayer)
+  editor_set_catalog_category:
+    description: Set catalog category in the editor store
+    parameters:
+      category:
+        description: category (CatalogCategory | null)
+  editor_set_selected_item:
+    description: Set selected item in the editor store
+    parameters:
+      item:
+        description: item (AssetInput)
+  editor_set_selected_reference_id:
+    description: Set selected reference id in the editor store
+    parameters:
+      id:
+        description: id (string | null)
+  editor_set_spaces:
+    description: Set spaces in the editor store
+    parameters:
+      spaces:
+        description: spaces (Record<string, Space>)
+  editor_set_editing_hole:
+    description: Set editing hole in the editor store
+    parameters:
+      hole:
+        description: 'hole ({ nodeId: string; holeIndex: number } | null)'
+  editor_set_preview_mode:
+    description: Set preview mode in the editor store
+    parameters:
+      preview:
+        description: preview (boolean)
+  editor_set_floorplan_open:
+    description: Set floorplan open in the editor store
+    parameters:
+      open:
+        description: open (boolean)
+  editor_toggle_floorplan_open:
+    description: Toggle floorplan open in the editor store
+  editor_set_floorplan_hovered:
+    description: Set floorplan hovered in the editor store
+    parameters:
+      hovered:
+        description: hovered (boolean)
+  editor_set_allow_underground_camera:
+    description: Set allow underground camera in the editor store
+    parameters:
+      enabled:
+        description: enabled (boolean)
+  paletteviewregistry_register:
+    description: Register in the paletteviewregistry store
+    parameters:
+      view:
+        description: view (PaletteView)
+  uploadstore_start_upload:
+    description: Start upload in the uploadstore store
+    parameters:
+      levelId:
+        description: levelId (string)
+      assetType:
+        description: assetType ('scan' | 'guide')
+      fileName:
+        description: fileName (string)
+  uploadstore_set_progress:
+    description: Set progress in the uploadstore store
+    parameters:
+      levelId:
+        description: levelId (string)
+      progress:
+        description: progress (number)
+  uploadstore_set_status:
+    description: Set status in the uploadstore store
+    parameters:
+      levelId:
+        description: levelId (string)
+      status:
+        description: status (UploadStatus)
+  uploadstore_set_error:
+    description: Set error in the uploadstore store
+    parameters:
+      levelId:
+        description: levelId (string)
+      error:
+        description: error (string)
+  uploadstore_set_result:
+    description: Set result in the uploadstore store
+    parameters:
+      levelId:
+        description: levelId (string)
+      url:
+        description: url (string)
+  uploadstore_clear_upload:
+    description: Clear upload in the uploadstore store
+    parameters:
+      levelId:
+        description: levelId (string)
+  itemlightpool_register:
+    description: Register in the itemlightpool store
+    parameters:
+      key:
+        description: key (string)
+      nodeId:
+        description: nodeId (AnyNodeId)
+      effect:
+        description: effect (LightEffect)
+      interactive:
+        description: interactive (Interactive)
+  itemlightpool_unregister:
+    description: Unregister in the itemlightpool store
+    parameters:
+      key:
+        description: key (string)
+  viewer_set_hovered_id:
+    description: Set hovered id in the viewer store
+    parameters:
+      id:
+        description: id (AnyNode['id'] | ZoneNode['id'] | null)
+  viewer_set_camera_mode:
+    description: Set camera mode in the viewer store
+    parameters:
+      mode:
+        description: mode ('perspective' | 'orthographic')
+  viewer_set_theme:
+    description: Set theme in the viewer store
+    parameters:
+      theme:
+        description: theme ('light' | 'dark')
+  viewer_set_unit:
+    description: Set unit in the viewer store
+    parameters:
+      unit:
+        description: unit ('metric' | 'imperial')
+  viewer_set_level_mode:
+    description: Set level mode in the viewer store
+    parameters:
+      mode:
+        description: mode ('stacked' | 'exploded' | 'solo' | 'manual')
+  viewer_set_wall_mode:
+    description: Set wall mode in the viewer store
+    parameters:
+      mode:
+        description: mode ('up' | 'cutaway' | 'down')
+  viewer_set_show_scans:
+    description: Set show scans in the viewer store
+    parameters:
+      show:
+        description: show (boolean)
+  viewer_set_show_guides:
+    description: Set show guides in the viewer store
+    parameters:
+      show:
+        description: show (boolean)
+  viewer_set_show_grid:
+    description: Set show grid in the viewer store
+    parameters:
+      show:
+        description: show (boolean)
+  viewer_set_project_id:
+    description: Set project id in the viewer store
+    parameters:
+      id:
+        description: id (string | null)
+  viewer_set_selection:
+    description: Set selection in the viewer store
+    parameters:
+      updates:
+        description: updates (Partial<SelectionPath>)
+  viewer_reset_selection:
+    description: Reset selection in the viewer store
+  viewer_export_scene:
+    description: Export scene in the viewer store
+  viewer_set_debug_colors:
+    description: Set debug colors in the viewer store
+    parameters:
+      enabled:
+        description: enabled (boolean)
+  viewer_set_camera_dragging:
+    description: Set camera dragging in the viewer store
+    parameters:
+      dragging:
+        description: dragging (boolean)

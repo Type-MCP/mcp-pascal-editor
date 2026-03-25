@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mcp-editor-server"
+version = "0.1.0"
+description = "MCP server for editor (with 72 capabilities)"
+authors = [
+    { name = "Type-MCP", email = "typemcp@gmail.com" },
+]
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+dependencies = [
+    "mcp>=1.0",
+    "websockets>=12.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Type-MCP/mcp-pascal-editor"
+Repository = "https://github.com/Type-MCP/mcp-pascal-editor"
+
+[project.scripts]
+mcp-editor = "mcp_editor.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_editor"]
+
