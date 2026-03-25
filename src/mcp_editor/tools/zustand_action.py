@@ -200,7 +200,64 @@ def register_tools(server: FastMCP, _get_backend) -> None:
         nodes: dict,
         rootNodeIds: list,
     ) -> str:
-        """Set scene in the scene store"""
+        """Replace the entire scene with a new flat node dictionary.
+
+        NODE HIERARCHY (always required):
+          site → building → level → wall | slab | zone
+
+        NODE TYPES AND REQUIRED FIELDS:
+
+        site:
+          { "object":"node", "id":"site_<name>", "type":"site", "parentId":null,
+            "visible":true, "metadata":{},
+            "polygon":{"type":"polygon","points":[[-20,-20],[20,-20],[20,20],[-20,20]]},
+            "children":["building_<id>", ...] }
+
+        building:
+          { "object":"node", "id":"building_<name>", "type":"building", "parentId":"site_<id>",
+            "visible":true, "metadata":{}, "name":"My Building",
+            "position":[x,0,z], "rotation":[0,0,0],
+            "children":["level_<id>"] }
+
+        level:
+          { "object":"node", "id":"level_<name>", "type":"level", "parentId":"building_<id>",
+            "visible":true, "metadata":{}, "level":0,
+            "children":["wall_<id>", "slab_<id>", "zone_<id>", ...] }
+
+        wall  (start/end are 2D [x,z] in local building space):
+          { "object":"node", "id":"wall_<name>", "type":"wall", "parentId":"level_<id>",
+            "visible":true, "metadata":{},
+            "start":[x1,z1], "end":[x2,z2],
+            "height":2.7, "thickness":0.2,
+            "frontSide":"exterior", "backSide":"interior", "children":[] }
+
+        slab  (polygon is list of 2D [x,z] points in local building space):
+          { "object":"node", "id":"slab_<name>", "type":"slab", "parentId":"level_<id>",
+            "visible":true, "metadata":{},
+            "polygon":[[x1,z1],[x2,z2],...], "elevation":0.05 }
+
+        zone  (colored area, e.g. pool water, room label):
+          { "object":"node", "id":"zone_<name>", "type":"zone", "parentId":"level_<id>",
+            "visible":true, "metadata":{}, "name":"Zone label",
+            "polygon":[[x1,z1],[x2,z2],...], "color":"#38bdf8" }
+
+        EXAMPLE — apartment at (-8,0,0) + pool at (6,0,0):
+          nodes = {
+            "site_main":      { site node, children:["building_apt","building_pool"] },
+            "building_apt":   { building, position:[-8,0,0], children:["level_apt"] },
+            "level_apt":      { level 0, children:["slab_apt","wall_s","wall_e","wall_n","wall_w"] },
+            "slab_apt":       { slab, polygon:[[0,0],[6,0],[6,4],[0,4]] },
+            "wall_s":         { wall, start:[0,0], end:[6,0] },
+            "wall_e":         { wall, start:[6,0], end:[6,4] },
+            "wall_n":         { wall, start:[6,4], end:[0,4] },
+            "wall_w":         { wall, start:[0,4], end:[0,0] },
+            "building_pool":  { building, position:[6,0,0], children:["level_pool"] },
+            "level_pool":     { level 0, children:["slab_deck","zone_pool"] },
+            "slab_deck":      { slab, polygon:[[0,0],[5,0],[5,4],[0,4]] },
+            "zone_pool":      { zone, polygon:[[0.5,0.5],[4.5,0.5],[4.5,3.5],[0.5,3.5]], color:"#38bdf8" }
+          }
+          rootNodeIds = ["site_main"]
+        """
         # Protocol call: scene_set_scene
         kwargs: dict[str, object] = {}
         if nodes is not None:
@@ -217,7 +274,9 @@ def register_tools(server: FastMCP, _get_backend) -> None:
         node: dict,
         parentId: str | None = None,
     ) -> str:
-        """Create node in the scene store"""
+        """Add a single node to the scene. See scene_set_scene for the full node schema.
+        parentId is optional — if omitted the node must be a site (root).
+        Use scene_set_scene when building a full scene from scratch."""
         # Protocol call: scene_create_node
         kwargs: dict[str, object] = {}
         if node is not None:
@@ -233,7 +292,8 @@ def register_tools(server: FastMCP, _get_backend) -> None:
     async def scene_create_nodes(
         ops: list,
     ) -> str:
-        """Create nodes in the scene store"""
+        """Add multiple nodes in one call. ops is a list of {node, parentId?} objects.
+        See scene_set_scene for the full node schema and type definitions."""
         # Protocol call: scene_create_nodes
         kwargs: dict[str, object] = {}
         if ops is not None:
@@ -248,7 +308,8 @@ def register_tools(server: FastMCP, _get_backend) -> None:
         id: str,
         data: dict,
     ) -> str:
-        """Update node in the scene store"""
+        """Partially update a node by id. data is a partial node object — only the fields
+        you want to change (e.g. {"position":[2,0,0]} or {"color":"#ff0000"})."""
         # Protocol call: scene_update_node
         kwargs: dict[str, object] = {}
         if id is not None:
