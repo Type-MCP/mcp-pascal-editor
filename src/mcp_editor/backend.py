@@ -85,6 +85,13 @@ class _BridgeServer:
             )
 
     async def call(self, store: str, action: str, args: dict, timeout: float) -> Any:
+        # Wait up to 8s for the browser to connect (handles the race condition
+        # where the WS server just started and McpBridge hasn't reconnected yet)
+        if not self._clients:
+            for _ in range(16):
+                await asyncio.sleep(0.5)
+                if self._clients:
+                    break
         if not self._clients:
             raise BackendError(
                 "No browser client connected. "
